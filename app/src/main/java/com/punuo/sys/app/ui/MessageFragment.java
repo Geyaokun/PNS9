@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.punuo.sys.app.model.Msg;
 import com.punuo.sys.app.model.MyFile;
 import com.punuo.sys.app.sip.SipInfo;
 import com.punuo.sys.app.sip.SipUser;
+
+import org.zoolu.tools.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,6 +44,15 @@ public class MessageFragment extends Fragment implements SipUser.TotalListener {
     public void onResume() {
         super.onResume();
         SipInfo.lastestMsgs = DatabaseInfo.sqLiteManager.queryLastestMsg();
+//        Iterator iterator= (Iterator) SipInfo.lastestMsgs.iterator();
+//        for (int i=0;i<SipInfo.lastestMsgs.size();i++){
+//            if (SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4990")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4991")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4992")){
+//            }
+//            else {
+//                SipInfo.lastestMsgs.remove(i);
+//                i--;
+//            }
+//        }
         messageAdapter.notifyDataSetChanged();
     }
 
@@ -53,6 +65,15 @@ public class MessageFragment extends Fragment implements SipUser.TotalListener {
         view.setClickable(true);
         SipInfo.sipUser.setTotalListener(this);
         SipInfo.lastestMsgs = DatabaseInfo.sqLiteManager.queryLastestMsg();
+        for (int i=0;i<SipInfo.lastestMsgs.size();i++){
+            if (SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4990")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4991")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4992")){
+
+            }
+            else {
+                SipInfo.lastestMsgs.remove(i);
+                i--;
+            }
+           }
         messageAdapter = new MessageAdapter(getActivity());
         messageList.setAdapter(messageAdapter);
         messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -96,6 +117,15 @@ public class MessageFragment extends Fragment implements SipUser.TotalListener {
             @Override
             public void run() {
                 SipInfo.lastestMsgs = DatabaseInfo.sqLiteManager.queryLastestMsg();
+                for (int i=0;i<SipInfo.lastestMsgs.size();i++){
+                    if (SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4990")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4991")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4992")){
+
+                    }
+                    else {
+                        SipInfo.lastestMsgs.remove(i);
+                        i--;
+                    }
+                }
                 messageAdapter.notifyDataSetChanged();
             }
         });

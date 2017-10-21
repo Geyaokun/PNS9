@@ -11,6 +11,7 @@ import com.punuo.sys.app.db.DatabaseInfo;
 import com.punuo.sys.app.ftp.Ftp;
 import com.punuo.sys.app.ftp.FtpListener;
 import com.punuo.sys.app.model.App;
+import com.punuo.sys.app.model.Cluster;
 import com.punuo.sys.app.model.Constant;
 import com.punuo.sys.app.model.Device;
 import com.punuo.sys.app.model.Friend;
@@ -33,7 +34,9 @@ import org.zoolu.sip.provider.TransportConnId;
 
 import java.io.File;
 import java.io.StringReader;
+import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -55,6 +58,8 @@ public class SipUser extends SipProvider {
     private ExecutorService pool = Executors.newFixedThreadPool(3);
     //用户或设备上线监听
     private LoginNotifyListener loginNotifyListener;
+    //集群监听
+    private ClusterNotifyListener clusterNotifyListener;
     //密码修改监听
     private ChangePWDListener changePWDListener;
     //消息监听
@@ -96,9 +101,10 @@ public class SipUser extends SipProvider {
     }
 
     //结束线程池
-    public void shutdown(){
+    public void shutdown() {
         pool.shutdown();
     }
+
     public synchronized void onReceivedMessage(Transport transport, Message msg) {
         Log.i(TAG, "<----------received sip message---------->");
         Log.i(TAG, msg.toString());
@@ -125,7 +131,6 @@ public class SipUser extends SipProvider {
                         SipInfo.isAccountExist = false;
                         break;
                 }
-
             }
         }
     }
@@ -184,6 +189,56 @@ public class SipUser extends SipProvider {
                         }
                         return true;
                     }
+                    case "cluster_users":
+                        SipInfo.cacheClusters.clear();
+                        NodeList clusters = root.getElementsByTagName("cluster_user");
+                        Log.d(TAG, "requestParse: " + clusters.getLength());
+                        for (int i = 0; i < clusters.getLength(); i++) {
+                            Cluster cluster = new Cluster();
+                            Element clusterElement = (Element) clusters.item(i);
+                            Element nameElement = (Element) clusterElement.getElementsByTagName("name").item(0);
+                            if ( nameElement.getFirstChild().getNodeValue().equals("超级用户")) {
+                                continue;
+                            }
+                            cluster.setName(nameElement.getFirstChild().getNodeValue());
+                            SipInfo.cacheClusters.add(cluster);
+                            Log.d(TAG, "requestParse: " + "添加完毕");
+                        }
+                        Element f = (Element) root.getElementsByTagName("finish").item(0);
+                        Collections.sort(SipInfo.cacheClusters);
+                        int isfinish = Integer.parseInt(f.getFirstChild().getNodeValue());
+                        if (isfinish == 1) {
+                            if (clusterNotifyListener != null && SipInfo.cacheClusters != null) {
+                                Log.d(TAG, "requestParse: " + "更新");
+                                clusterNotifyListener.onNotify();
+                            }
+                        }
+                        return true;
+                    case "user_notify_for_cluster":
+                        Log.d(TAG, Thread.currentThread().getName());
+                        Element LiveElement = (Element) root.getElementsByTagName("live").item(0);
+                        Element userIdElement = (Element) root.getElementsByTagName("userid").item(0);
+                        if (userIdElement.getFirstChild().getNodeValue() != SipInfo.userAccount) {
+                            Cluster user = new Cluster();
+                            user.setName(userIdElement.getFirstChild().getNodeValue());
+                            int indexOfUser = SipInfo.cacheClusters.indexOf(user);
+                            if (indexOfUser != -1) {
+                                if (LiveElement.getFirstChild().getNodeValue().equals("False")) {
+                                    SipInfo.cacheClusters.remove(indexOfUser);
+                                    if (clusterNotifyListener != null) {
+                                        clusterNotifyListener.onNotify();
+                                    }
+                                }
+                            } else {
+                                org.zoolu.sip.message.Message query_channel = SipMessageFactory.createNotifyRequest(
+                                        SipInfo.sipUser, SipInfo.user_to, SipInfo.user_from, BodyFactory.createQueryClusterIdBody(SipInfo.userId));
+                                SipInfo.sipUser.sendMessage(query_channel);
+                                if (clusterNotifyListener != null) {
+                                    clusterNotifyListener.onNotify();
+                                }
+                            }
+                        }
+                        return true;
                     case "dev_notify"://设备列表
                         Element devsElement = (Element) root.getElementsByTagName("devs").item(0);
                         Element loginElement = (Element) root.getElementsByTagName("login").item(0);
@@ -691,7 +746,7 @@ public class SipUser extends SipProvider {
                         return true;
                     case "query_response":
                         Element resolutionElement = (Element) root.getElementsByTagName("resolution").item(0);
-                        VideoInfo.resultion=resolutionElement.getFirstChild().getNodeValue();
+                        VideoInfo.resultion = resolutionElement.getFirstChild().getNodeValue();
                         switch (VideoInfo.resultion) {
                             case "CIF":
                                 VideoInfo.width = 352;
@@ -736,6 +791,13 @@ public class SipUser extends SipProvider {
                         }
                         SipInfo.inviteResponse = true;
                         return true;
+                    case "query_cluster_id_response":
+                        Element clusterIdElement = (Element) root.getElementsByTagName("clusterId").item(0);
+                        String clusterId = clusterIdElement.getFirstChild().getNodeValue();
+                        org.zoolu.sip.message.Message query_channel = SipMessageFactory.createSubscribeRequest(
+                                SipInfo.sipUser, SipInfo.user_to, SipInfo.user_from, BodyFactory.createClusterGroupQueryBody(Integer.parseInt(clusterId)));
+                        SipInfo.sipUser.sendMessage(query_channel);
+                        return true;
                 }
             } catch (Exception e) {
                 Log.e(TAG, "responseParse: ", e);
@@ -755,6 +817,14 @@ public class SipUser extends SipProvider {
         void onDevNotify();
 
         void onUserNotify();
+    }
+
+    public void setClusterNotifyListener(ClusterNotifyListener clusterNotifyListener) {
+        this.clusterNotifyListener = clusterNotifyListener;
+    }
+
+    public interface ClusterNotifyListener {
+        void onNotify();
     }
 
     public void setChangePWDListener(ChangePWDListener changePWDListener) {

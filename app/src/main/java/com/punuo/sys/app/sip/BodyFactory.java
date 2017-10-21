@@ -336,4 +336,33 @@ public class BodyFactory {
         body.append("</task_id>\r\n</task_complete>\r\n");
         return body.toString();
     }
+    public static String createClusterGroupQueryBody(int clusterId) {
+        StringBuilder body = new StringBuilder();
+        body.append("<?xml version=\"1.0\"?>\r\n");
+        body.append("<cluster_group_query>\r\n<clusterId>");
+        body.append(clusterId);
+        body.append("</clusterId>\r\n</cluster_group_query>\r\n");
+        return body.toString();
+    }
+    public static String createChangeDevClusterGroupBody(String userId,int oldClusterId, String clusterId) {
+        StringBuilder body = new StringBuilder();
+        body.append("<?xml version=\"1.0\"?>\r\n");
+        body.append("<change_user_cluster_group>\r\n<userId>");
+        body.append(userId);
+        body.append("</userId>\r\n<oldClusterId>");
+        body.append(oldClusterId);
+        body.append("</oldClusterId>\r\n<clusterId>");
+        body.append(clusterId);
+        body.append("</clusterId>\r\n</change_user_cluster_group>");
+        return body.toString();
+    }
+    public static String createQueryClusterIdBody(String userId) {
+        StringBuilder body = new StringBuilder();
+        body.append("<?xml version=\"1.0\"?>\r\n");
+        body.append("<query_cluster_id>\r\n<userId>");
+        body.append(userId);
+        body.append("</userId>\r\n</query_cluster_id>");
+        return body.toString();
+    }
+
 }

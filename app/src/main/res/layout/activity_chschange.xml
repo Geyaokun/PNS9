@@ -100,4 +100,17 @@
                 android:textSize="24sp" />
         </TableRow>
     </TableLayout>
+    <ListView
+        android:id="@+id/cluster_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="1dp"
+        android:overScrollMode="never" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:background="#ffffff" />
 </LinearLayout>

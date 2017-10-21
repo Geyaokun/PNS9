@@ -44,6 +44,7 @@ import com.punuo.sys.app.sip.SipInfo;
 import com.punuo.sys.app.sip.SipMessageFactory;
 import com.punuo.sys.app.tools.ActivityCollector;
 import com.punuo.sys.app.tools.VersionXmlParse;
+import com.punuo.sys.app.video.H264Sending;
 import com.punuo.sys.app.view.CustomProgressDialog;
 
 import java.io.File;
@@ -78,7 +79,8 @@ public class MenuFragment extends Fragment {
     public final int GALLER = 2;
     public final int CHSCHANGE = 3;
     public final int UPDATE = 4;
-    public final int ADDAPP = 5;
+    public final int PlatformMonitoring=5;
+    public final int ADDAPP = 6;
 
     private BroadcastReceiver AppReceiver = new ApplicationsIntentReceiver();
 
@@ -101,7 +103,8 @@ public class MenuFragment extends Fragment {
             R.drawable.menu_change_psd,
             R.drawable.menu_album,
             R.drawable.menu_chs_change,
-            R.drawable.menu_soft_update
+            R.drawable.menu_soft_update,
+            R.drawable.menu_platform_monitor
 
     };
 
@@ -113,7 +116,10 @@ public class MenuFragment extends Fragment {
             "相册",
             "集群频道更换",
             "软件更新",
+            "平台监控",
             "添加应用"
+
+
     };
 
     //手机内存卡路径
@@ -294,6 +300,11 @@ public class MenuFragment extends Fragment {
                             case CHSCHANGE:
                                 Intent chschange=new Intent(getActivity(),ChsChange.class);
                                 startActivity(chschange);
+                                for (int i=0;i<3;i++) {
+                                    org.zoolu.sip.message.Message query_channel = SipMessageFactory.createNotifyRequest(
+                                            SipInfo.sipUser, SipInfo.user_to, SipInfo.user_from, BodyFactory.createQueryClusterIdBody(SipInfo.userId));
+                                    SipInfo.sipUser.sendMessage(query_channel);
+                                }
                                 break;
                             case UPDATE:
                                 result = "Finished";
@@ -302,7 +313,7 @@ public class MenuFragment extends Fragment {
                                 loading.setCanceledOnTouchOutside(false);
                                 loading.show();
                                 //初始化FTP
-                                mFtp = new Ftp("101.69.255.132", 21, "ftpall", "123456", Dversion);
+                                mFtp = new Ftp(SipInfo.serverIp, 21, "ftpall", "123456", Dversion);
                                 //获取当前版本号
                                 PackageManager packageManager = getActivity().getPackageManager();
                                 try {
@@ -313,8 +324,11 @@ public class MenuFragment extends Fragment {
                                 }
                                 new Thread(checkVersion).start();
                                 break;
-                           case ADDAPP:
+                            case ADDAPP:
                                 startActivity(new Intent(getActivity(),AppList.class));
+                                break;
+                            case PlatformMonitoring:
+//                               startActivity(new Intent(getActivity(),H264SendingToPlatform.class));
                                 break;
                         }
                     } else {

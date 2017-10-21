@@ -5,6 +5,7 @@ import android.net.sip.SipAudioCall;
 import android.os.Handler;
 
 import com.punuo.sys.app.model.App;
+import com.punuo.sys.app.model.Cluster;
 import com.punuo.sys.app.model.Device;
 import com.punuo.sys.app.model.Friend;
 import com.punuo.sys.app.model.LastestMsg;
@@ -98,6 +99,10 @@ public class SipInfo {
     public static boolean dev_heartbeatResponse;
     //好友列表
     public static ArrayList<Friend> friends=new ArrayList<>();
+    //集群列表
+    public static ArrayList<Cluster> clusters=new ArrayList<>();
+    //缓存集群列表
+    public static ArrayList<Cluster> cacheClusters=new ArrayList<>();
     //好友数量
     public static int friendCount;
     //分组列表

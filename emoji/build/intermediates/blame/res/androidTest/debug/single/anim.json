@@ -4,6 +4,18 @@
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\anim\\abc_popup_enter.xml"
     },
     {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_fade_out.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_fade_out.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_fade_in.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+    },
+    {
         "merged": "F:\\punuoApp\\s9\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_out_bottom.xml",
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\anim\\abc_slide_out_bottom.xml"
     },
@@ -12,8 +24,24 @@
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\anim\\abc_slide_out_top.xml"
     },
     {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_out_top.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_slide_out_top.xml"
+    },
+    {
         "merged": "F:\\punuoApp\\s9\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_in_bottom.xml",
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\anim\\abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_popup_exit.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_popup_exit.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_out_bottom.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_slide_out_bottom.xml"
     },
     {
         "merged": "F:\\punuoApp\\s9\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
@@ -28,8 +56,16 @@
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\anim\\abc_slide_in_top.xml"
     },
     {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_in_top.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_slide_in_top.xml"
+    },
+    {
         "merged": "F:\\punuoApp\\s9\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_slide_in_bottom.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_slide_in_bottom.xml"
     },
     {
         "merged": "F:\\punuoApp\\s9\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_fade_out.xml",
@@ -38,5 +74,9 @@
     {
         "merged": "F:\\punuoApp\\s9\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_popup_exit.xml",
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\anim\\abc_popup_exit.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_popup_enter.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\anim\\abc_popup_enter.xml"
     }
 ]

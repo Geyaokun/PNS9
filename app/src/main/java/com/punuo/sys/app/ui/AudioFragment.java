@@ -107,26 +107,27 @@ public class AudioFragment extends Fragment {
                 if (iv1.getVisibility() == View.VISIBLE && iv2.getVisibility() == View.INVISIBLE) {
                     iv1.setVisibility(View.INVISIBLE);
                     iv2.setVisibility(View.VISIBLE);
-                    btnCall.setVisibility(View.VISIBLE);
+//                    btnCall.setVisibility(View.VISIBLE);
+                    btnCall.setVisibility(View.GONE);
                     fm.beginTransaction()
                             .replace(R.id.frame, dialFragment)
                             .commitAllowingStateLoss();
                 }
                 break;
-            case R.id.btnCall:
-                if (iv1.getVisibility() == View.INVISIBLE && iv2.getVisibility() == View.VISIBLE) {
-                    String phoneNum = dialFragment.getPhoneNum();
-                    if (TextUtils.isEmpty(phoneNum)) {
-                        Toast.makeText(getActivity(), "请输入您要拨打语音号码", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (phoneNum.equals(SipInfo.userPhoneNumber)) {
-                            Toast.makeText(getActivity(), "不能拨打自己的号码", Toast.LENGTH_SHORT).show();
-                        } else {
-                            PhoneCall.actionStart(getActivity(), phoneNum, 1);
-                        }
-                    }
-                }
-                break;
+//            case R.id.btnCall:
+//                if (iv1.getVisibility() == View.INVISIBLE && iv2.getVisibility() == View.VISIBLE) {
+//                    String phoneNum = dialFragment.getPhoneNum();
+//                    if (TextUtils.isEmpty(phoneNum)) {
+//                        Toast.makeText(getActivity(), "请输入您要拨打语音号码", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        if (phoneNum.equals(SipInfo.userPhoneNumber)) {
+//                            Toast.makeText(getActivity(), "不能拨打自己的号码", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            PhoneCall.actionStart(getActivity(), phoneNum, 1);
+//                        }
+//                    }
+//                }
+//                break;
         }
     }
 

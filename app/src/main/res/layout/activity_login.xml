@@ -47,7 +47,20 @@
             android:paddingEnd="25dp"
             android:paddingStart="25dp">
 
-            <EditText
+            <!--<EditText-->
+                <!--android:id="@+id/username"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@android:color/transparent"-->
+                <!--android:gravity="center"-->
+                <!--android:hint="@string/username"-->
+                <!--android:inputType="text"-->
+                <!--android:maxLines="1"-->
+                <!--android:textColorHint="#fff"-->
+                <!--android:textSize="17sp" />-->
+
+            <TextView
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

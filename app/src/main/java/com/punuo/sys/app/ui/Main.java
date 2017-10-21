@@ -90,6 +90,8 @@ public class Main extends Activity implements View.OnClickListener, SipUser.Logi
     private AudioFragment audioFragment;
     //联系人界面
     private ContactFragment contactFragment;
+    //集群呼叫
+    private ChsChange chsChange;
 
     private Handler handler = new Handler();
 
@@ -107,6 +109,15 @@ public class Main extends Activity implements View.OnClickListener, SipUser.Logi
         super.onResume();
         setButtonType(Constant.SAVE_FRAGMENT_SELECT_STATE);
         SipInfo.lastestMsgs = DatabaseInfo.sqLiteManager.queryLastestMsg();
+        for (int i=0;i<SipInfo.lastestMsgs.size();i++){
+            if (SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4990")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4991")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4992")){
+
+            }
+            else {
+                SipInfo.lastestMsgs.remove(i);
+                i--;
+            }
+        }
         SipInfo.messageCount = 0;
         for (int i = 0; i < SipInfo.lastestMsgs.size(); i++) {
             if (SipInfo.lastestMsgs.get(i).getType() == 0) {
@@ -440,4 +451,5 @@ public class Main extends Activity implements View.OnClickListener, SipUser.Logi
     public void onReceivedBottomFileshare(MyFile myfile) {
 
     }
+
 }

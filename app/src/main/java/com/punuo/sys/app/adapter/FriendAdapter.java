@@ -83,6 +83,7 @@ public class FriendAdapter extends BaseAdapter {
         @Bind(R.id.check)
         ImageView check;
 
+
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }

@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.punuo.sys.app.R;
@@ -70,12 +71,14 @@ public class Login extends Activity implements View.OnTouchListener {
     LinearLayout root;
     @Bind(R.id.setting)
     Button setting;
-    @Bind(R.id.username)
-    EditText username;
+    //    @Bind(R.id.username)
+//    EditText username;
     @Bind(R.id.password)
     EditText password;
     @Bind(R.id.main)
     RelativeLayout main;
+    @Bind(R.id.username)
+    TextView username;
 
     private String SdCard;
     //配置文件路径
@@ -119,7 +122,7 @@ public class Login extends Activity implements View.OnTouchListener {
         //创建根目录文件夹
         createDirs(SdCard);
         root.setOnTouchListener(this);
-        addLayoutListener(main,login);
+        addLayoutListener(main, login);
         isNetworkreachable();
         loadProperties();
     }
@@ -131,20 +134,21 @@ public class Login extends Activity implements View.OnTouchListener {
         loadProperties();
         closeKeyboard(Login.this, getWindow().getDecorView());
     }
+
     private void addLayoutListener(final View main, final View scroll) {
         main.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                Rect rect=new Rect();
+                Rect rect = new Rect();
                 main.getWindowVisibleDisplayFrame(rect);//rect为输出参数,因此rect不允许为null
-                int mainInvisibleHeight=main.getRootView().getHeight()-rect.bottom;
-                if (mainInvisibleHeight>100){
-                    int[] location=new int[2];
+                int mainInvisibleHeight = main.getRootView().getHeight() - rect.bottom;
+                if (mainInvisibleHeight > 100) {
+                    int[] location = new int[2];
                     scroll.getLocationOnScreen(location);
-                    int scrollHeight=(location[1]+scroll.getHeight()-rect.bottom);
-                    main.scrollTo(0,scrollHeight);
-                }else{
-                    main.scrollTo(0,0);
+                    int scrollHeight = (location[1] + scroll.getHeight() - rect.bottom);
+                    main.scrollTo(0, scrollHeight);
+                } else {
+                    main.scrollTo(0, 0);
                 }
 
             }
@@ -174,6 +178,7 @@ public class Login extends Activity implements View.OnTouchListener {
                 SipInfo.serverIp = properties.getProperty("serverIp");
                 SipInfo.devId = properties.getProperty("devId");
                 SipInfo.centerPhoneNumber = properties.getProperty("centerPhone");
+                username.setText("DB" + SipInfo.devId.substring(12, 14));
             }
         } else {
             handler.post(configIsNotExist);
@@ -213,7 +218,11 @@ public class Login extends Activity implements View.OnTouchListener {
                         showTip("密码不能为空");
                         break;
                     }
-                    if (SipInfo.userAccount.equals("0000") && SipInfo.passWord.equals("0")) {
+//                    if (SipInfo.userAccount.equals("0000") && SipInfo.passWord.equals("0")) {
+//                        EditConfig();
+//                        break;
+//                    }
+                    if (SipInfo.passWord.equals("0")) {
                         EditConfig();
                         break;
                     }
@@ -481,6 +490,7 @@ public class Login extends Activity implements View.OnTouchListener {
                         SipInfo.serverIp = ip;
                         SipInfo.devId = devId;
                         SipInfo.centerPhoneNumber = centerPhoneNumber;
+                        username.setText("DB" + SipInfo.devId.substring(12, 14));
                         boolean isSucceed = saveConfig(configPath, config);
                         if (isSucceed) {
                             editConfigDialog.dismiss();

@@ -4,6 +4,14 @@
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\drawable-v21\\notification_action_background.xml"
     },
     {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_action_bar_item_background_material.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_btn_colored_material.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\drawable-v21\\abc_btn_colored_material.xml"
+    },
+    {
         "merged": "F:\\punuoApp\\s9\\PNS9\\emoji\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_action_bar_item_background_material.xml",
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
     },
@@ -14,5 +22,13 @@
     {
         "merged": "F:\\punuoApp\\s9\\PNS9\\emoji\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_btn_colored_material.xml",
         "source": "C:\\Users\\acer\\.android\\build-cache\\a4674e54d29d4ba4015354ad6bb21d776e0c5c8b\\output\\res\\drawable-v21\\abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_edit_text_material.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\drawable-v21\\abc_edit_text_material.xml"
+    },
+    {
+        "merged": "D:\\PNS9\\emoji\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\notification_action_background.xml",
+        "source": "C:\\Users\\asus\\.android\\build-cache\\fc820b43e4b32c4cd44db5a8cf20d0883ffcba4a\\output\\res\\drawable-v21\\notification_action_background.xml"
     }
 ]

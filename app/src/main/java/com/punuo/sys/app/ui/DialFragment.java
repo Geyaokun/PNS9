@@ -2,14 +2,17 @@ package com.punuo.sys.app.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.punuo.sys.app.R;
+import com.punuo.sys.app.sip.SipInfo;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -98,7 +101,17 @@ public class DialFragment extends Fragment {
                 inputNum.append('9');
                 break;
             case R.id.btnClear:
-                inputNum.delete(0, inputNum.length());
+//                inputNum.delete(0, inputNum.length());
+                String phoneNum =inputNum.toString();
+                if (TextUtils.isEmpty(phoneNum)) {
+                    Toast.makeText(getActivity(), "请输入您要拨打语音号码", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (phoneNum.equals(SipInfo.userPhoneNumber)) {
+                        Toast.makeText(getActivity(), "不能拨打自己的号码", Toast.LENGTH_SHORT).show();
+                    } else {
+                        PhoneCall.actionStart(getActivity(), phoneNum, 1);
+                    }
+                }
                 break;
             case R.id.btn0:
                 inputNum.append('0');

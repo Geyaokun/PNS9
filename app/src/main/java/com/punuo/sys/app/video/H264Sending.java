@@ -1,6 +1,8 @@
 package com.punuo.sys.app.video;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.media.AudioFormat;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.punuo.sys.app.R;
 import com.punuo.sys.app.groupvoice.G711;
 import com.punuo.sys.app.sip.SipInfo;
+import com.punuo.sys.app.sip.SipMessageFactory;
 import com.punuo.sys.app.tools.ActivityCollector;
 
 import org.opencore.avch264.NativeH264Encoder;
@@ -277,6 +280,11 @@ public class H264Sending extends Activity implements SurfaceHolder.Callback, Cam
     public void onBackPressed() {
     }
 
+    private void closeVideo() {
+
+    }
+
+
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         Log.i(TAG, "网络连接状况:" + (SipInfo.isNetworkConnected ? "正常" : "不正常"));
@@ -458,4 +466,5 @@ public class H264Sending extends Activity implements SurfaceHolder.Callback, Cam
             e.printStackTrace();
         }
     }
+
 }
