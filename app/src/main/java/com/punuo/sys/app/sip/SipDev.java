@@ -2,13 +2,20 @@ package com.punuo.sys.app.sip;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.punuo.sys.app.R;
+import com.punuo.sys.app.db.DatabaseInfo;
+import com.punuo.sys.app.ftp.Ftp;
+import com.punuo.sys.app.ftp.FtpListener;
 import com.punuo.sys.app.groupvoice.GroupInfo;
 import com.punuo.sys.app.groupvoice.GroupKeepAlive;
 import com.punuo.sys.app.groupvoice.GroupUdpThread;
 import com.punuo.sys.app.groupvoice.RtpAudio;
+import com.punuo.sys.app.model.Constant;
+import com.punuo.sys.app.model.Msg;
 import com.punuo.sys.app.model.TaskInfo;
 import com.punuo.sys.app.service.PTTService;
 import com.punuo.sys.app.video.VideoInfo;
@@ -23,9 +30,13 @@ import org.zoolu.sip.provider.SipProvider;
 import org.zoolu.sip.provider.Transport;
 import org.zoolu.sip.provider.TransportConnId;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.SocketException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -214,6 +225,53 @@ public class SipDev extends SipProvider {
                     case "recvaddr":
                         VideoInfo.endView = true;
                         SipInfo.sipDev.sendMessage(SipMessageFactory.createResponse(msg, 200, "Ok", ""));
+                        SimpleDateFormat formatter=new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+                        SimpleDateFormat formatter2=new SimpleDateFormat("HHmmss",Locale.getDefault());
+                        final Date curDate=  new Date(System.currentTimeMillis());
+                        final String date=formatter.format(curDate);
+                        VideoInfo.videoEnd=formatter2.format(curDate);
+                        FtpListener listener = new FtpListener() {
+                            @Override
+                            public void onStateChange(String currentStep) {
+                                Log.e(TAG, "onStateChange: "+currentStep );
+                                if (currentStep.equals(Constant.FTP_DISCONNECT_SUCCESS)){
+                                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/DCIM/video_encoded.264");
+                                    if (file.exists()){
+                                        Log.e(TAG, "删除的文件存在");
+                                        file.delete();
+                                    }else {
+                                        Log.e(TAG, "删除的文件不存在");
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onUploadProgress(String currentStep, long uploadSize, File targetFile) {
+
+                            }
+
+                            @Override
+                            public void onDownLoadProgress(String currentStep, long downProcess, File targetFile) {
+
+                            }
+
+                            @Override
+                            public void onDeleteProgress(String currentStep) {
+
+                            }
+                        };
+                        final Ftp mFtp = new Ftp(SipInfo.serverIp, 21, "ftpall", "123456", listener);
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                String path="/" + SipInfo.userAccount + "/"+date+"_"+VideoInfo.vidieoBegin+"_"+VideoInfo.videoEnd;
+                                try {
+                                    mFtp.upload(Environment.getExternalStorageDirectory().getAbsolutePath()+"/DCIM/video_encoded.264",path);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }.start();
                         return true;
                     case "task": {
                         Element userIdElement = (Element) root.getElementsByTagName("user_id").item(0);

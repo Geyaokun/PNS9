@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.punuo.sys.app.R;
 import com.punuo.sys.app.db.DatabaseInfo;
@@ -19,6 +21,7 @@ import com.punuo.sys.app.model.MailInfo;
 import com.punuo.sys.app.model.Msg;
 import com.punuo.sys.app.model.MyFile;
 import com.punuo.sys.app.tools.SHA1;
+import com.punuo.sys.app.ui.VideoPlay;
 import com.punuo.sys.app.video.VideoInfo;
 
 import org.w3c.dom.Document;
@@ -52,7 +55,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class SipUser extends SipProvider {
     private Context context;
-    public static String TAG = "SipUser";
+    public static String TAG ="SipUser";
     public static String[] PROTOCOLS = {"udp"};
     //线程池
     private ExecutorService pool = Executors.newFixedThreadPool(3);
@@ -190,8 +193,9 @@ public class SipUser extends SipProvider {
                         return true;
                     }
                     case "cluster_users":
-                        SipInfo.cacheClusters.clear();
-                        NodeList clusters = root.getElementsByTagName("cluster_user");
+                        if (SipInfo.finish){
+                        SipInfo.cacheClusters.clear();}
+                        final NodeList clusters = root.getElementsByTagName("cluster_user");
                         Log.d(TAG, "requestParse: " + clusters.getLength());
                         for (int i = 0; i < clusters.getLength(); i++) {
                             Cluster cluster = new Cluster();
@@ -208,10 +212,14 @@ public class SipUser extends SipProvider {
                         Collections.sort(SipInfo.cacheClusters);
                         int isfinish = Integer.parseInt(f.getFirstChild().getNodeValue());
                         if (isfinish == 1) {
+                            SipInfo.finish=true;
                             if (clusterNotifyListener != null && SipInfo.cacheClusters != null) {
                                 Log.d(TAG, "requestParse: " + "更新");
                                 clusterNotifyListener.onNotify();
                             }
+                        }else {
+                            SipInfo.finish=false;
+                            SipInfo.sipUser.sendMessage(SipMessageFactory.createResponse(msg, 200, "OK", ""));
                         }
                         return true;
                     case "user_notify_for_cluster":
@@ -562,6 +570,9 @@ public class SipUser extends SipProvider {
                             SipInfo.loginReplace.sendEmptyMessage(0x1111);
                         }
                         return true;
+                    case "stopMonitor2":
+                        monitor.stopVideo();
+                        return true;
                 }
             } catch (Exception e) {
                 Log.e(TAG, "requestParse: ", e);
@@ -791,6 +802,34 @@ public class SipUser extends SipProvider {
                         }
                         SipInfo.inviteResponse = true;
                         return true;
+                    case "videoParam_response":
+                        Element CodeElement = (Element) root.getElementsByTagName("code").item(0);
+                        Element ResolutionElement = (Element) root.getElementsByTagName("resolution").item(0);
+                        String Code= CodeElement.getFirstChild().getNodeValue();
+                        String Resolution=ResolutionElement.getFirstChild().getNodeValue();
+                        if (Code.equals("200")&&Resolution.equals("MOBILE_S9_720P")){
+                            resolution.onResolution(1280,720,10);
+                            Log.d(TAG, "videoParam_response "+"MOBILE_S9_720P");
+                        }
+                        if(Code.equals("200")&&Resolution.equals("MOBILE_S9_CIF")){
+                            resolution.onResolution(1280,720,5);
+                            Log.d(TAG, "videoParam_response "+"MOBILE_S9_CIF");
+                        }
+                        return true;
+                    case "query_videoParam":
+                        Element queryResolutionElement = (Element) root.getElementsByTagName("resolution").item(0);
+                        String queryResolution=queryResolutionElement.getFirstChild().getNodeValue();
+                        if (queryResolution.equals("MOBILE_S9_720P")||queryResolution.equals("0")){
+                            SipInfo.videoParamResponse=true;
+                            SipInfo.videoParam="MOBILE_S9_720P";
+                            Log.d(TAG, "query_videoParam "+"MOBILE_S9_720P");
+                        }
+                        if(queryResolution.equals("MOBILE_S9_CIF")){
+                            SipInfo.videoParamResponse=true;
+                            SipInfo.videoParam="MOBILE_S9_CIF";
+                            Log.d(TAG, "query_videoParam "+"MOBILE_S9_CIF");
+                        }
+                        return true;
                     case "query_cluster_id_response":
                         Element clusterIdElement = (Element) root.getElementsByTagName("clusterId").item(0);
                         String clusterId = clusterIdElement.getFirstChild().getNodeValue();
@@ -798,6 +837,19 @@ public class SipUser extends SipProvider {
                                 SipInfo.sipUser, SipInfo.user_to, SipInfo.user_from, BodyFactory.createClusterGroupQueryBody(Integer.parseInt(clusterId)));
                         SipInfo.sipUser.sendMessage(query_channel);
                         return true;
+                    case "startMonitor":
+                        Element CodeE= (Element) root.getElementsByTagName("code").item(0);
+                        if (CodeE.getFirstChild().getNodeValue().equals("201")) {
+                            new Handler(context.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, "平台未打开!", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                        }
+                        return true;
+
                 }
             } catch (Exception e) {
                 Log.e(TAG, "responseParse: ", e);
@@ -866,4 +918,31 @@ public class SipUser extends SipProvider {
     public void setBottomListener(BottomListener bottomListener) {
         this.bottomListener = bottomListener;
     }
+
+    public interface ChangeResolution{
+        void onResolution(int w,int h,int f);
+    }
+
+    public ChangeResolution resolution=new ChangeResolution() {
+        @Override
+        public void onResolution(int w, int h, int f) {
+        }
+    };
+    public void setResolution(ChangeResolution resolution){
+        this.resolution = resolution;
+    }
+
+    public interface StopMonitor{
+        void stopVideo();
+    }
+
+    public StopMonitor monitor=new StopMonitor() {
+        @Override
+        public void stopVideo() {
+        }
+    };
+    public void setMonitor(StopMonitor monitor){
+        this.monitor = monitor;
+    }
+
 }

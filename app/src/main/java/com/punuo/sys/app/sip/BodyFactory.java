@@ -364,5 +364,55 @@ public class BodyFactory {
         body.append("</userId>\r\n</query_cluster_id>");
         return body.toString();
     }
+    public static String changeVideoParam(String resolution){
+        StringBuilder body=new StringBuilder();
+        body.append("<?xml version=\"1.0\"?>\n");
+        body.append("<change_videoParam>\r\n<resolution>");
+        body.append(resolution);
+        body.append("</resolution>\r\n");
+        body.append("</change_videoParam>");
+        return body.toString();
+    }
+
+    public static String queryVideoParam(String devId){
+        StringBuilder body=new StringBuilder();
+        body.append("<?xml version=\"1.0\"?>\n");
+        body.append("<query_videoParam>\r\n<devId>");
+        body.append(devId);
+        body.append("</devId>\r\n");
+        body.append("</query_videoParam>");
+        return body.toString();
+    }
+    public static String createStopMonitor(String devId){
+        StringBuilder body=new StringBuilder();
+        body.append("<?xml version=\"1.0\"?>\n");
+        body.append("<stop_monitor>\r\n<devId>");
+        body.append(devId);
+        body.append("</devId>\r\n");
+        body.append("</stop_monitor>");
+        return body.toString();
+    }
+    public static String createStartMonitor(String devId){
+        StringBuilder body=new StringBuilder();
+        body.append("<?xml version=\"1.0\"?>\n");
+        body.append("<start_monitor>\r\n<devId>");
+        body.append(devId);
+        body.append("</devId>\r\n");
+        body.append("</start_monitor>");
+        return body.toString();
+    }
+    public static String createChangeDevIdClusterGroupBody(String userId,int oldClusterId, String clusterId) {
+        StringBuilder body = new StringBuilder();
+        body.append("<?xml version=\"1.0\"?>\r\n");
+        body.append("<change_dev_cluster_group>\r\n<devId>");
+        body.append(userId);
+        body.append("</devId>\r\n<oldClusterId>");
+        body.append(oldClusterId);
+        body.append("</oldClusterId>\r\n<clusterId>");
+        body.append(clusterId);
+        body.append("</clusterId>\r\n</change_dev_cluster_group>");
+        return body.toString();
+    }
+
 
 }

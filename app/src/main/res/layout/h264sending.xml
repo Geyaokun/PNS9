@@ -6,10 +6,23 @@
     android:gravity="center"
     android:background="#000">
 
+    <Button
+        android:id="@+id/flashLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="开启闪光灯"
+        android:textSize="15pt" />
+
+    <!--<SurfaceView-->
+        <!--android:id="@+id/h264suf"-->
+        <!--android:layout_width="360dp"-->
+        <!--android:layout_height="480dp"-->
+        <!--/>-->
     <SurfaceView
         android:id="@+id/h264suf"
-        android:layout_width="360dp"
-        android:layout_height="480dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
 
 </LinearLayout>

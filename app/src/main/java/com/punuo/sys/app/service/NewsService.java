@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Camera;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -17,8 +18,12 @@ import com.punuo.sys.app.sip.SipInfo;
 import com.punuo.sys.app.sip.SipMessageFactory;
 import com.punuo.sys.app.tools.NewsVideo;
 import com.punuo.sys.app.video.H264Sending;
+import com.punuo.sys.app.video.VideoInfo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ch on 2016/11/14.
@@ -39,12 +44,17 @@ public class NewsService extends Service {
             public void handleMessage(Message msg) {
 
                 System.out.println("收到了 视频邀请");
+                SimpleDateFormat formatter=new SimpleDateFormat("HHmmss",Locale.getDefault());
+                Date curDate=  new Date(System.currentTimeMillis());
+                VideoInfo.vidieoBegin=formatter.format(curDate);
+                if (isCameraCanUse()){
                 Intent intent = new Intent(NewsService.this, H264Sending.class);
                 SipInfo.inviteResponse = true;
                 SipInfo.sipDev.sendMessage(SipMessageFactory.createResponse(SipInfo.msg, 200, "OK", BodyFactory.createMediaResponseBody("MOBILE_S9")));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 super.handleMessage(msg);
+                }
             }
         };
         SipInfo.newTask = new Handler() {
@@ -93,6 +103,22 @@ public class NewsService extends Service {
                 super.handleMessage(msg);
             }
         };
+    }
+    public static boolean isCameraCanUse() {
+        boolean canUse = true;
+        android.hardware.Camera mCamera = null;
+        try {
+            // TODO camera驱动挂掉,处理??
+            mCamera = mCamera.open();
+        } catch (Exception e) {
+            canUse = false;
+        }
+        if (canUse) {
+            mCamera.release();
+            mCamera = null;
+        }
+
+        return canUse;
     }
 
     @Override

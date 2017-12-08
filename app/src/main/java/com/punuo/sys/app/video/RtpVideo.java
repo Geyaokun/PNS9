@@ -25,7 +25,7 @@ public class RtpVideo implements RTPAppIntf {
     private RTPSession rtpSession;
     private DatagramSocket rtpSocket;
     private StreamBuf streamBuf;
-    private byte tempNal[] = new byte[100000];
+    private byte tempNal[] = new byte[1000000];
     private int tempNalLen = 0;
     private int putNum;
     private int preSeq;
@@ -83,7 +83,6 @@ public class RtpVideo implements RTPAppIntf {
             audioBuffer = frame.getConcatenatedData();
             G711.ulaw2linear(audioBuffer, audioData, frameSizeG711);
             VideoInfo.track.write(audioData, 0, frameSizeG711);
-
         }
     }
 
@@ -129,6 +128,7 @@ public class RtpVideo implements RTPAppIntf {
                     if (preSeq + 1 == seqNum) {
                         addMiddleRtpPacketToTemp(data, seqNum, len);
                     } else {
+                        Log.e("RtpVideo", "数据丢包");
                         jumpNal(seqNum);
                     }
                 }
@@ -142,6 +142,7 @@ public class RtpVideo implements RTPAppIntf {
                         jumpNal(seqNum);
                     }
                 } else {
+                    Log.e("RtpVideo", "数据丢包");
                     isPacketLost = false;
                 }
                 break;
@@ -163,7 +164,7 @@ public class RtpVideo implements RTPAppIntf {
     }
 
     private void addCompleteRtpPacketToTemp(byte[] data, int seqNum, int len) {
-        tempNal = new byte[100000];
+        tempNal = new byte[1000000];
         tempNal[0] = H264_STREAM_HEAD[0];
         tempNal[1] = H264_STREAM_HEAD[1];
         tempNal[2] = H264_STREAM_HEAD[2];
@@ -174,7 +175,7 @@ public class RtpVideo implements RTPAppIntf {
     }
 
     private void addFirstRtpPacketToTemp(byte[] data, int seqNum, int len) {
-        tempNal = new byte[100000];
+        tempNal = new byte[1000000];
         tempNal[0] = H264_STREAM_HEAD[0];
         tempNal[1] = H264_STREAM_HEAD[1];
         tempNal[2] = H264_STREAM_HEAD[2];

@@ -34,6 +34,10 @@ public class VideoInfo {
 
     public static String resultion;
 
+    public static String vidieoBegin;
+
+    public static String videoEnd;
+
     //设备部分
     /**
      * 每一个新的NAL设置首包打包状态为false，即没有打包首包

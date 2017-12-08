@@ -328,7 +328,9 @@ public class MenuFragment extends Fragment {
                                 startActivity(new Intent(getActivity(),AppList.class));
                                 break;
                             case PlatformMonitoring:
-//                               startActivity(new Intent(getActivity(),H264SendingToPlatform.class));
+                                org.zoolu.sip.message.Message start_monitor= SipMessageFactory.createNotifyRequest(
+                                        SipInfo.sipUser, SipInfo.user_to, SipInfo.user_from, BodyFactory.createStartMonitor(SipInfo.devId));
+                                SipInfo.sipUser.sendMessage(start_monitor);
                                 break;
                         }
                     } else {

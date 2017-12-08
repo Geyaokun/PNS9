@@ -125,6 +125,10 @@ public class SipInfo {
     public static boolean queryResponse;
     //视频请求回复
     public static boolean inviteResponse;
+    //视频参数请求
+    public static boolean videoParamResponse;
+    //视频参数
+    public static String videoParam;
     //视频编码状态
     public static boolean decoding = false;
     //根目录
@@ -159,4 +163,5 @@ public class SipInfo {
     public static NotificationManager notificationManager;
 
     public static boolean Recording=false;
+    public static boolean finish=false;
 }

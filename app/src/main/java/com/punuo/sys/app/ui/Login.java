@@ -49,6 +49,8 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 import java.util.Random;
 
+import javax.security.auth.login.LoginException;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

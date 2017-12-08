@@ -44,15 +44,14 @@ public class MessageFragment extends Fragment implements SipUser.TotalListener {
     public void onResume() {
         super.onResume();
         SipInfo.lastestMsgs = DatabaseInfo.sqLiteManager.queryLastestMsg();
-//        Iterator iterator= (Iterator) SipInfo.lastestMsgs.iterator();
-//        for (int i=0;i<SipInfo.lastestMsgs.size();i++){
-//            if (SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4990")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4991")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4992")){
-//            }
-//            else {
-//                SipInfo.lastestMsgs.remove(i);
-//                i--;
-//            }
-//        }
+        for (int i=0;i<SipInfo.lastestMsgs.size();i++){
+            if (SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4990")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4991")||SipInfo.lastestMsgs.get(i).getId().substring(14,18).equals("4992")){
+            }
+            else {
+                SipInfo.lastestMsgs.remove(i);
+                i--;
+            }
+        }
         messageAdapter.notifyDataSetChanged();
     }
 
